@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WebBackCurrencyConverter.API.Repositories;
+using WebBackCurrencyConverter.API.Services;
 
 namespace WebBackCurrencyConverter.API
 {
@@ -17,6 +19,9 @@ namespace WebBackCurrencyConverter.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient<ICurrencyRatesRepository, CurrencyRatesRepository>();
+            services.AddSingleton<IExchangeService, ExchangeService>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
