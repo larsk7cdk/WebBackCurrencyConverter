@@ -35,9 +35,12 @@ namespace WebBackCurrencyConverter.Test.Repositories
                 .Verifiable();
 
             _httpClientTestDouble = new Mock<HttpClient>(handlerMock.Object);
+        }
 
+        [TestInitialize]
+        public void TestInitialize()
+        {
 
-            //_httpClientTestDouble.Setup(s => s.CreateClient().GetStringAsync(It.IsAny<string>())).ReturnsAsync(xml);
         }
 
         [TestMethod]
