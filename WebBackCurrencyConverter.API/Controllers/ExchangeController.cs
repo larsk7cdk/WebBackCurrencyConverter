@@ -1,4 +1,6 @@
 ﻿using System.Threading.Tasks;
+using Halcyon.HAL;
+using Halcyon.Web.HAL;
 using Microsoft.AspNetCore.Mvc;
 using WebBackCurrencyConverter.API.Services;
 
@@ -16,15 +18,29 @@ namespace WebBackCurrencyConverter.API.Controllers
         }
 
         [HttpGet("ExchangeFromDkk")]
-        public async Task<double> ExchangeFromDkk([FromQuery]double amount, [FromQuery]string currencyCode)
+        public async Task<object> ExchangeFromDkk([FromQuery] double amount, [FromQuery] string currencyCode)
         {
-            return await _exchangeService.ExchangeFromDkk(amount,currencyCode);
+            var result = await _exchangeService.ExchangeFromDkk(amount, currencyCode);
+
+            var response = new
+            {
+                amount = result,
+                code = currencyCode
+            };
+
+            //return Ok(response);
+            return this.HAL(response, new[]
+            {
+                new Link("self", "/ExchangeFromDkk?amount=0&currencycode=eur", "ExchangeFromDkk",
+                    "GET"),
+                new Link("ExchangeToDkk", "/ExchangeToDkk?amount=0&currencycode=eur", "ExchangeFromDkk", "GET")
+            });
         }
 
         [HttpGet("ExchangeToDkk")]
-        public async Task<double> ExchangeToDkk([FromQuery]double amount, [FromQuery]string currencyCode)
+        public async Task<double> ExchangeToDkk([FromQuery] double amount, [FromQuery] string currencyCode)
         {
-            return await _exchangeService.ExchangeToDkk(amount,currencyCode);
+            return await _exchangeService.ExchangeToDkk(amount, currencyCode);
         }
     }
 }
