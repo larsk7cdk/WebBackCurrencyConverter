@@ -17,7 +17,14 @@ namespace WebBackCurrencyConverter.API.Controllers
             _currencyRatesRepository = currencyRatesRepository;
         }
 
+        /// <summary>
+        /// Henter alle dagens valuta kurser fra Nationalbanken
+        /// </summary>
+        /// <returns>
+        /// Liste af dagens valuta kurser
+        /// </returns>
         [HttpGet]
+        [Produces("application/json")]
         public async Task<ActionResult<IEnumerable<CurrencyRate>>> Get() =>
             await _currencyRatesRepository.GetCurrencyRates();
 
