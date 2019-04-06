@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 using WebBackCurrencyConverter.API.Repositories;
 using WebBackCurrencyConverter.API.Services;
@@ -49,9 +50,12 @@ namespace WebBackCurrencyConverter.API
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
+
+            var logger = loggerFactory.CreateLogger("Logs");
+            logger.LogInformation("WEB API Started");
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -59,6 +63,7 @@ namespace WebBackCurrencyConverter.API
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Currency Converter V1");
                 c.RoutePrefix = string.Empty;
             });
+
 
             app.UseMvc();
         }

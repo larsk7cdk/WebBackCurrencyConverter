@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore;
+﻿using System;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Serilog;
 
 namespace WebBackCurrencyConverter.API
 {
@@ -7,12 +9,16 @@ namespace WebBackCurrencyConverter.API
     {
         public static void Main(string[] args)
         {
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.SQLite(Environment.CurrentDirectory + @"\Logs\Logs.db")
+                .CreateLogger();
             CreateWebHostBuilder(args).Build().Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {
             return WebHost.CreateDefaultBuilder(args)
+                .UseSerilog()
                 .UseStartup<Startup>();
         }
     }

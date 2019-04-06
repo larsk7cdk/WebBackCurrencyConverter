@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using WebBackCurrencyConverter.API.Models;
 using WebBackCurrencyConverter.API.Repositories;
 
@@ -11,10 +12,12 @@ namespace WebBackCurrencyConverter.API.Controllers
     public class CurrencyRatesController : ControllerBase
     {
         private readonly ICurrencyRatesRepository _currencyRatesRepository;
+        private readonly ILogger<CurrencyRatesController> _logger;
 
-        public CurrencyRatesController(ICurrencyRatesRepository currencyRatesRepository)
+        public CurrencyRatesController(ICurrencyRatesRepository currencyRatesRepository, ILogger<CurrencyRatesController> logger)
         {
             _currencyRatesRepository = currencyRatesRepository;
+            _logger = logger;
         }
 
         /// <summary>
@@ -25,8 +28,11 @@ namespace WebBackCurrencyConverter.API.Controllers
         /// </returns>
         [HttpGet]
         [Produces("application/json")]
-        public async Task<ActionResult<IEnumerable<CurrencyRate>>> Get() =>
-            await _currencyRatesRepository.GetCurrencyRates();
+        public async Task<ActionResult<IEnumerable<CurrencyRate>>> Get()
+        {
+            _logger.LogInformation("´Bruger har forespurgt på valuta kurser");
+            return await _currencyRatesRepository.GetCurrencyRates();
+        }
 
 
         [HttpGet("{code}")]
