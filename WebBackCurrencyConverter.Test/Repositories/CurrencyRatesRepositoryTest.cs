@@ -37,12 +37,6 @@ namespace WebBackCurrencyConverter.Test.Repositories
             _httpClientTestDouble = new Mock<HttpClient>(handlerMock.Object);
         }
 
-        [TestInitialize]
-        public void TestInitialize()
-        {
-
-        }
-
         [TestMethod]
         public async Task GetCurrencyRates_WhenNoOfRatesIs33_Expect33Rates()
         {
