@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using WebBackCurrencyConverter.API.Models;
+using WebBackCurrencyConverter.API.Entities;
 using WebBackCurrencyConverter.API.Repositories;
 
 namespace WebBackCurrencyConverter.API.Controllers

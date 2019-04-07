@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using WebBackCurrencyConverter.API.Models;
+using WebBackCurrencyConverter.API.Entities;
 using WebBackCurrencyConverter.API.Repositories;
 using WebBackCurrencyConverter.API.Services;
 
@@ -24,31 +24,31 @@ namespace WebBackCurrencyConverter.Test.Services
         }
 
         [TestMethod]
-        public async Task ExchangeFromDkk_When_Expected()
+        public async Task Exchange_When_ExpectedEur()
         {
             // Arrange 
             var sut = new ExchangeService(_currencyRatesRepositoryTestDouble.Object);
             const double expected = 133.98;
 
             // Act
-            var actual = await sut.ExchangeFromDkk(1000, "eur");
+            var actual = await sut.Exchange(1000, "dkk", "eur");
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual.Amount);
         }
 
         [TestMethod]
-        public async Task ExchangeToDkk_When_Expected()
+        public async Task Exchange_When_ExpectedDkk()
         {
             // Arrange 
             var sut = new ExchangeService(_currencyRatesRepositoryTestDouble.Object);
             const double expected = 1000.01;
 
             // Act
-            var actual = await sut.ExchangeToDkk(133.98, "eur");
+            var actual = await sut.Exchange(133.98, "eur","dkk");
 
             // Assert
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual.Amount);
         }
     }
 }

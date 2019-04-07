@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using WebBackCurrencyConverter.API.Models;
+using WebBackCurrencyConverter.API.Entities;
 
 namespace WebBackCurrencyConverter.API.Repositories
 {
