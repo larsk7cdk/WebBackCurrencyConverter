@@ -35,14 +35,26 @@ namespace WebBackCurrencyConverter.API.Repositories
 
         public async Task<CurrencyRate> GetCurrencyRateByCode(string code)
         {
+            if (code.Equals("dkk", StringComparison.CurrentCultureIgnoreCase))
+            {
+                return new CurrencyRate
+                {
+                    Code = "DKK",
+                    Description = "Danske kroner",
+                    Rate = 100
+                };
+            }
+
             if (CurrencyRates.Count == 0)
                 await GetCurrencyRates();
 
             var cr = CurrencyRates.FirstOrDefault(x =>
                 string.Equals(x.Code, code, StringComparison.CurrentCultureIgnoreCase));
 
+
             if (cr == null)
                 throw new Exception($"Currency code {code} not found");
+
 
             return cr;
         }

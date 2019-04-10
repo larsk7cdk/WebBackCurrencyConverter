@@ -54,12 +54,21 @@ namespace WebBackCurrencyConverter.API.Controllers
             var result =
                 await _exchangeService.Exchange(request.Amount, request.FromCurrencyCode, request.ToCurrencyCode);
 
-            return this.HAL(result, new[]
+            var responseConfig = new HALModelConfig
             {
-                new Link("self", "/Exchange?amount=0&currencycode=eur", "ExchangeFromDkk",
-                    "GET"),
-                new Link("ExchangeToDkk", "/ExchangeToDkk?amount=0&currencycode=eur", "ExchangeFromDkk", "GET")
-            });
+                LinkBase = $"{Request.Scheme}://{Request.Host.ToString()}",
+                ForceHAL = Request.ContentType == "application/hal+json"
+            };
+
+            var response = new HALResponse(responseConfig);
+            response.AddEmbeddedResource("result", result);
+            response.AddLinks(
+                new Link("self", "/api/Exchange", null, "POST"),
+                new Link("fromCurrency", $"/api/CurrencyRates/{request.FromCurrencyCode}"),
+                new Link("toCurrency", $"/api/CurrencyRates/{request.ToCurrencyCode}")
+                );
+
+            return this.HAL(response);
         }
     }
 }
