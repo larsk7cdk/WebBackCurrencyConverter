@@ -27,6 +27,7 @@ namespace WebBackCurrencyConverter.API.Controllers
         /// Liste af dagens valuta kurser
         /// </returns>
         [HttpGet]
+        [Consumes("application/json")]
         [Produces("application/json")]
         public async Task<ActionResult<IEnumerable<CurrencyRate>>> Get()
         {
@@ -34,7 +35,17 @@ namespace WebBackCurrencyConverter.API.Controllers
             return await _currencyRatesRepository.GetCurrencyRates();
         }
 
-
+        /// <summary>
+        /// Henter dagens valuta kurs fra Nationalbanken
+        /// </summary>
+        /// <param name="code">
+        /// Angiv valuta for kurs
+        /// </param>
+        /// <returns>
+        /// Dagens valuta kurs
+        /// </returns>
+        [Consumes("application/json")]
+        [Produces("application/json")]
         [HttpGet("{code}")]
         public async Task<ActionResult<CurrencyRate>> Get(string code) =>
             await _currencyRatesRepository.GetCurrencyRateByCode(code);

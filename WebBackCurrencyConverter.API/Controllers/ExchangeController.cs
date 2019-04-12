@@ -40,7 +40,7 @@ namespace WebBackCurrencyConverter.API.Controllers
         /// <response code="200">Returner omregnet beløb, valuta samt kurs</response>
         /// <response code="400">Hvis beløb er under 0</response>
         [HttpPost("Exchange")]
-        [Consumes("application/json")]
+        [Consumes("application/json", "application/hal+json")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
